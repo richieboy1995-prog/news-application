@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Write an Article
+{% endblock %}
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1 class="page-title">
+            Write an Article
+        </h1>
+
+        <p class="page-intro">
+            Put your story to parchment and prepare it
+            for review by the editors of the Chronicle.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Submit Article
+            </button>
+
+        </form>
+
+        <div class="woodland-divider"></div>
+
+        <p>
+            <a
+                class="button button-secondary"
+                href="{% url 'article_list' %}"
+            >
+                Return to Articles
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

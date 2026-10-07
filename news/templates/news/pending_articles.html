@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Pending Articles
+{% endblock %}
+
+{% block content %}
+
+    <section>
+
+        <h1 class="page-title">
+            Articles Awaiting Approval
+        </h1>
+
+        <p class="page-intro">
+            Review the latest submissions before
+            they are released to the readers of the Chronicle.
+        </p>
+
+        {% if articles %}
+
+            <div class="article-grid">
+
+                {% for article in articles %}
+
+                    <article class="article-card">
+
+                        <h2>
+                            {{ article.title }}
+                        </h2>
+
+                        <div class="article-content">
+
+                            <p>
+                                {{ article.content }}
+                            </p>
+
+                        </div>
+
+                        <div class="article-meta">
+
+                            <p>
+                                Submitted:
+                                {{ article.created_at|date:"d F Y" }}
+                            </p>
+
+                            <p>
+                                Author:
+                                {{ article.author.username }}
+                            </p>
+
+                            {% if article.publisher %}
+
+                                <p>
+                                    Publisher:
+                                    {{ article.publisher.name }}
+                                </p>
+
+                            {% elif article.journalist %}
+
+                                <p>
+                                    Independent journalist:
+                                    {{ article.journalist.username }}
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <form
+                            method="post"
+                            action="{% url 'approve_article' article.id %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button type="submit">
+                                Approve Article
+                            </button>
+
+                        </form>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h2>
+                    The review table is clear.
+                </h2>
+
+                <p>
+                    There are currently no articles waiting
+                    for editorial approval.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ newsletter.title }}
+{% endblock %}
+
+{% block content %}
+
+    <section>
+
+        <article class="newsletter-card">
+
+            <h1 class="page-title">
+                {{ newsletter.title }}
+            </h1>
+
+            <p class="page-intro">
+                {{ newsletter.description }}
+            </p>
+
+            <div class="article-meta">
+
+                <p>
+                    Curated by:
+                    {{ newsletter.author.username }}
+                </p>
+
+                <p>
+                    Created:
+                    {{ newsletter.created_at|date:"d F Y" }}
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <div class="woodland-divider"></div>
+
+
+        <h2 class="page-title">
+            Stories Within This Newsletter
+        </h2>
+
+
+        {% if newsletter.articles.all %}
+
+            <div class="article-grid">
+
+                {% for article in newsletter.articles.all %}
+
+                    <article class="article-card">
+
+                        <h2>
+                            {{ article.title }}
+                        </h2>
+
+                        <div class="article-content">
+
+                            <p>
+                                {{ article.content }}
+                            </p>
+
+                        </div>
+
+                        <div class="article-meta">
+
+                            <p>
+                                Published:
+                                {{ article.created_at|date:"d F Y" }}
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <p>
+                    This newsletter contains no articles yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="woodland-divider"></div>
+
+
+        <p>
+            <a
+                class="button button-secondary"
+                href="{% url 'newsletter_list' %}"
+            >
+                Return to Newsletters
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

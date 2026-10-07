@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+    The Woodland Chronicle
+{% endblock %}
+
+{% block content %}
+
+    <section>
+
+        <h1 class="page-title">
+            The Woodland Chronicle
+        </h1>
+
+        <p class="page-intro">
+            News and stories gathered from publishers
+            and independent journalists across the realm.
+        </p>
+
+
+        {% if articles %}
+
+            <div class="article-grid">
+
+                {% for article in articles %}
+
+                    <article class="article-card">
+
+                        <h2>
+                            {{ article.title }}
+                        </h2>
+
+                        <div class="article-content">
+                            <p>
+                                {{ article.content }}
+                            </p>
+                        </div>
+
+                        <div class="article-meta">
+
+                            <p>
+                                Published:
+                                {{ article.created_at|date:"d F Y" }}
+                            </p>
+
+                            {% if article.journalist %}
+
+                                <p>
+                                    By:
+                                    {{ article.journalist.username }}
+                                </p>
+
+                            {% elif article.publisher %}
+
+                                <p>
+                                    Published by:
+                                    {{ article.publisher.name }}
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h2>
+                    The forest is quiet...
+                </h2>
+
+                <p>
+                    No approved articles are available yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+{% endblock %}

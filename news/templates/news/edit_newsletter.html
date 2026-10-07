@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Newsletter
+{% endblock %}
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1 class="page-title">
+            Edit Newsletter
+        </h1>
+
+        <p class="page-intro">
+            Refine your collection of stories before
+            sending it back into the realm.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Save Changes
+            </button>
+
+        </form>
+
+        <div class="woodland-divider"></div>
+
+        <p>
+            <a
+                class="button button-secondary"
+                href="{% url 'newsletter_list' %}"
+            >
+                Return to Newsletters
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

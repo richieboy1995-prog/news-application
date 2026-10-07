@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+    My Feed
+{% endblock %}
+
+{% block content %}
+
+    <section>
+
+        <h1 class="page-title">
+            My Woodland Feed
+        </h1>
+
+        <p class="page-intro">
+            Stories from the publishers and journalists
+            you have chosen to follow.
+        </p>
+
+        {% if articles %}
+
+            <div class="article-grid">
+
+                {% for article in articles %}
+
+                    <article class="article-card">
+
+                        <h2>
+                            {{ article.title }}
+                        </h2>
+
+                        <div class="article-content">
+
+                            <p>
+                                {{ article.content }}
+                            </p>
+
+                        </div>
+
+                        <div class="article-meta">
+
+                            <p>
+                                Published:
+                                {{ article.created_at|date:"d F Y" }}
+                            </p>
+
+                            {% if article.journalist %}
+
+                                <p>
+                                    By:
+                                    {{ article.journalist.username }}
+                                </p>
+
+                            {% elif article.publisher %}
+
+                                <p>
+                                    Published by:
+                                    {{ article.publisher.name }}
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h2>
+                    Your feed is quiet...
+                </h2>
+
+                <p>
+                    Subscribe to publishers or journalists
+                    to begin gathering stories here.
+                </p>
+
+                <p>
+                    <a
+                        class="button"
+                        href="{% url 'publisher_list' %}"
+                    >
+                        Discover Publishers
+                    </a>
+
+                    <a
+                        class="button"
+                        href="{% url 'journalist_list' %}"
+                    >
+                        Discover Journalists
+                    </a>
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+{% endblock %}

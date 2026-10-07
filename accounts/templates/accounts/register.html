@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Join the Chronicle
+{% endblock %}
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1 class="page-title">
+            Join the Chronicle
+        </h1>
+
+        <p class="page-intro">
+            Create an account and choose your role
+            within the Woodland Chronicle.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="woodland-divider"></div>
+
+        <p>
+            Already have an account?
+            <a href="{% url 'login' %}">
+                Enter the Chronicle
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

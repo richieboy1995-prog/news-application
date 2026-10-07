@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create Newsletter
+{% endblock %}
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1 class="page-title">
+            Create a Newsletter
+        </h1>
+
+        <p class="page-intro">
+            Gather stories together and create a
+            curated chronicle for your readers.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Create Newsletter
+            </button>
+
+        </form>
+
+        <div class="woodland-divider"></div>
+
+        <p>
+            <a
+                class="button button-secondary"
+                href="{% url 'newsletter_list' %}"
+            >
+                Return to Newsletters
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

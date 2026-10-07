@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Newsletter
+{% endblock %}
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1 class="page-title">
+            Remove Newsletter
+        </h1>
+
+        <p class="page-intro">
+            Are you certain you wish to remove this
+            collection of stories?
+        </p>
+
+        <article class="newsletter-card">
+
+            <h2>
+                {{ newsletter.title }}
+            </h2>
+
+            <p>
+                {{ newsletter.description }}
+            </p>
+
+        </article>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="button-danger"
+            >
+                Delete Newsletter
+            </button>
+
+        </form>
+
+
+        <div class="woodland-divider"></div>
+
+
+        <p>
+            <a
+                class="button button-secondary"
+                href="{% url 'newsletter_detail' newsletter.id %}"
+            >
+                Keep Newsletter
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

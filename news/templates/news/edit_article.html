@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Article
+{% endblock %}
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1 class="page-title">
+            Edit Article
+        </h1>
+
+        <p class="page-intro">
+            Refine the story before sending it back
+            into the hands of the Chronicle.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Save Changes
+            </button>
+
+        </form>
+
+        <div class="woodland-divider"></div>
+
+        <p>
+            <a
+                class="button button-secondary"
+                href="{% url 'article_list' %}"
+            >
+                Return to Articles
+            </a>
+        </p>
+
+    </section>
+
+{% endblock %}

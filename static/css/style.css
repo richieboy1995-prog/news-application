@@ -1,0 +1,459 @@
+/* =========================================================
+   News Application
+   Ancient Woodland Newspaper Theme
+   wanted a lord of the rings / hobbit / forest / woodland aesthetic
+   ========================================================= */
+
+
+/* =========================================================
+   General page styling
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background:
+        linear-gradient(
+            rgba(20, 35, 24, 0.94),
+            rgba(20, 35, 24, 0.94)
+        ),
+        radial-gradient(
+            circle at top,
+            #52634a 0%,
+            #263c2c 45%,
+            #142319 100%
+        );
+
+    color: #30271d;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   Main application container
+   ========================================================= */
+
+.site-wrapper {
+    width: min(1200px, 92%);
+    margin: 30px auto;
+    background: #eee2c3;
+    border: 2px solid #8d7448;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        inset 0 0 35px rgba(111, 83, 38, 0.12);
+}
+
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.site-header {
+    padding: 35px 25px 25px;
+    text-align: center;
+    background:
+        linear-gradient(
+            rgba(25, 54, 37, 0.96),
+            rgba(16, 39, 27, 0.96)
+        );
+
+    color: #f4e8c8;
+    border-bottom: 5px solid #a88a4a;
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.site-header p {
+    margin: 8px 0 0;
+    color: #d7c79d;
+    font-style: italic;
+    font-size: 1.05rem;
+}
+
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: #2d241b;
+    border-bottom: 3px solid #9c8048;
+}
+
+.site-nav a {
+    display: inline-block;
+    padding: 9px 15px;
+    color: #f4e8c8;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.site-nav a:hover {
+    background: #526744;
+    color: #fff7df;
+    border-color: #b49a5b;
+}
+
+
+/* =========================================================
+   Main content
+   ========================================================= */
+
+.main-content {
+    padding: 35px;
+}
+
+.page-title {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #253b2b;
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.page-intro {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-align: center;
+    color: #62533e;
+}
+
+
+/* =========================================================
+   Article cards
+   ========================================================= */
+
+.article-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.article-card {
+    position: relative;
+    padding: 25px;
+    background:
+        linear-gradient(
+            135deg,
+            #f5e9c9,
+            #e6d5ad
+        );
+
+    border: 1px solid #b59a61;
+    border-radius: 3px;
+
+    box-shadow:
+        0 5px 12px rgba(58, 42, 20, 0.25),
+        inset 0 0 20px rgba(120, 91, 40, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 10px 20px rgba(58, 42, 20, 0.32),
+        inset 0 0 20px rgba(120, 91, 40, 0.08);
+}
+
+.article-card h2 {
+    margin-top: 0;
+    color: #25432e;
+    font-size: 1.65rem;
+}
+
+.article-card h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.article-card h2 a:hover {
+    color: #765b2d;
+}
+
+.article-content {
+    color: #403628;
+}
+
+.article-meta {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid #bca778;
+    color: #75654c;
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   Forms
+   ========================================================= */
+
+.form-container {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #29442f;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #a89162;
+    border-radius: 3px;
+    background: #fbf2da;
+    color: #33291f;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+textarea {
+    min-height: 180px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #526c4d;
+    box-shadow: 0 0 0 3px rgba(82, 108, 77, 0.18);
+}
+
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+button,
+.button {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid #a88a4a;
+    border-radius: 3px;
+    background: #304a35;
+    color: #f8edcf;
+    font-family: inherit;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+button:hover,
+.button:hover {
+    background: #526744;
+    transform: translateY(-1px);
+}
+
+.button-secondary {
+    background: #685638;
+}
+
+.button-danger {
+    background: #643c32;
+}
+
+
+/* =========================================================
+   Publisher and journalist cards
+   ========================================================= */
+
+.directory-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+    gap: 22px;
+}
+
+.directory-card {
+    padding: 22px;
+    background: #e8d8b5;
+    border: 1px solid #b49a62;
+    box-shadow:
+        0 4px 10px rgba(50, 38, 22, 0.2);
+}
+
+.directory-card h2 {
+    margin-top: 0;
+    color: #29452f;
+}
+
+
+/* =========================================================
+   Newsletter styling
+   ========================================================= */
+
+.newsletter-card {
+    padding: 28px;
+    margin-bottom: 25px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #f5e9c9,
+            #e1cfaa
+        );
+
+    border: 1px solid #a98a50;
+    box-shadow:
+        0 5px 12px rgba(60, 44, 25, 0.25);
+}
+
+.newsletter-card h2 {
+    margin-top: 0;
+    color: #29452f;
+}
+
+.newsletter-description {
+    color: #594b38;
+}
+
+
+/* =========================================================
+   Messages
+   ========================================================= */
+
+.messages {
+    max-width: 800px;
+    margin: 0 auto 25px;
+}
+
+.message {
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-left: 5px solid #8e7543;
+    background: #e0d0a9;
+}
+
+
+/* =========================================================
+   Empty states
+   ========================================================= */
+
+.empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    background: #e1d1ad;
+    border: 1px dashed #a88c56;
+    color: #685b46;
+}
+
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+.site-footer {
+    padding: 25px;
+    text-align: center;
+    background: #1d2d22;
+    color: #d7c79d;
+    border-top: 4px solid #9c8048;
+}
+
+.site-footer p {
+    margin: 5px 0;
+}
+
+
+/* =========================================================
+   Decorative woodland divider
+   ========================================================= */
+
+.woodland-divider {
+    width: 80%;
+    height: 2px;
+    margin: 25px auto;
+    background: #9c8048;
+    position: relative;
+}
+
+.woodland-divider::before,
+.woodland-divider::after {
+    content: "✦";
+    position: absolute;
+    top: -13px;
+    color: #8b703d;
+    font-size: 1.2rem;
+}
+
+.woodland-divider::before {
+    left: -20px;
+}
+
+.woodland-divider::after {
+    right: -20px;
+}
+
+
+/* =========================================================
+   Responsive design
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .site-wrapper {
+        width: 96%;
+        margin: 10px auto;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .site-nav {
+        flex-direction: column;
+    }
+
+    .site-nav a {
+        text-align: center;
+    }
+
+    .article-grid,
+    .directory-grid {
+        grid-template-columns: 1fr;
+    }
+}

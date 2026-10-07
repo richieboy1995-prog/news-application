@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Newsletters
+{% endblock %}
+
+{% block content %}
+
+    <section>
+
+        <h1 class="page-title">
+            The Chronicle's Newsletters
+        </h1>
+
+        <p class="page-intro">
+            Curated collections of stories gathered
+            by the Chronicle's journalists.
+        </p>
+
+        {% if newsletters %}
+
+            {% for newsletter in newsletters %}
+
+                <article class="newsletter-card">
+
+                    <h2>
+                        <a
+                            href="{% url 'newsletter_detail' newsletter.id %}"
+                        >
+                            {{ newsletter.title }}
+                        </a>
+                    </h2>
+
+                    <p class="newsletter-description">
+                        {{ newsletter.description }}
+                    </p>
+
+                    <div class="article-meta">
+
+                        <p>
+                            Created:
+                            {{ newsletter.created_at|date:"d F Y" }}
+                        </p>
+
+                        <p>
+                            Curated by:
+                            {{ newsletter.author.username }}
+                        </p>
+
+                    </div>
+
+                    <p>
+                        <a
+                            class="button"
+                            href="{% url 'newsletter_detail' newsletter.id %}"
+                        >
+                            Read Newsletter
+                        </a>
+                    </p>
+
+                </article>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h2>
+                    No newsletters have been written yet.
+                </h2>
+
+                <p>
+                    The scribes have yet to gather their stories.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+{% endblock %}
