@@ -1,9 +1,12 @@
+"""Define the custom user model for the news application."""
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
     """Represent a user and their role within the news application."""
+
     ROLE_CHOICES = [
         ("reader", "Reader"),
         ("journalist", "Journalist"),

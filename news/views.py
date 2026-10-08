@@ -1,3 +1,5 @@
+"""Provide views for the news application."""
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
@@ -5,15 +7,17 @@ from django.core.mail import send_mail
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 from accounts.models import User
 
 from .serializers import ArticleSerializer
-from .forms import ArticleForm, NewsletterForm
+from .forms import ArticleForm, NewsletterForm, PublisherForm
 from .models import Article, Newsletter, Publisher
 
 
 def article_list(request):
+    """Display all approved articles."""
     articles = Article.objects.filter(approved=True)
 
     return render(
@@ -65,7 +69,6 @@ def create_article(request):
 @login_required
 def pending_articles(request):
     """Display articles waiting for editor approval."""
-
     if request.user.role != "editor":
         return redirect("article_list")
 
@@ -92,8 +95,25 @@ def approve_article(request, article_id):
         pk=article_id,
     )
 
-    article.approved = True
-    article.save()
+    factory = APIRequestFactory()
+
+    api_request = factory.post(
+        "/api/approved/",
+        {
+            "article_id": article.id,
+        },
+        format="json",
+    )
+
+    force_authenticate(
+        api_request,
+        user=request.user,
+    )
+
+    response = api_approve_article(api_request)
+
+    if response.status_code != 200:
+        return redirect("pending_articles")
 
     recipients = set()
 
@@ -140,6 +160,75 @@ def publisher_list(request):
         "news/publisher_list.html",
         {"publishers": publishers},
     )
+
+
+@login_required
+def create_publisher(request):
+    """Allow an editor to create a publisher."""
+    if request.user.role != "editor":
+        return redirect("publisher_list")
+
+    if request.method == "POST":
+        form = PublisherForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("publisher_list")
+    else:
+        form = PublisherForm()
+
+    return render(
+        request,
+        "news/create_publisher.html",
+        {"form": form},
+    )
+
+
+@login_required
+def edit_publisher(request, publisher_id):
+    """Allow an editor to edit a publisher."""
+    if request.user.role != "editor":
+        return redirect("publisher_list")
+
+    publisher = get_object_or_404(
+        Publisher,
+        pk=publisher_id,
+    )
+
+    if request.method == "POST":
+        form = PublisherForm(
+            request.POST,
+            instance=publisher,
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("publisher_list")
+    else:
+        form = PublisherForm(instance=publisher)
+
+    return render(
+        request,
+        "news/edit_publisher.html",
+        {"form": form},
+    )
+
+
+@login_required
+@require_POST
+def delete_publisher(request, publisher_id):
+    """Allow an editor to delete a publisher."""
+    if request.user.role != "editor":
+        return redirect("publisher_list")
+
+    publisher = get_object_or_404(
+        Publisher,
+        pk=publisher_id,
+    )
+
+    publisher.delete()
+
+    return redirect("publisher_list")
 
 
 @require_POST
@@ -498,6 +587,47 @@ def api_article_list(request):
     return Response(
         serializer.errors,
         status=400,
+    )
+
+
+@api_view(["POST"])
+def api_approve_article(request):
+    """Approve an article through REST API."""
+    if not request.user.is_authenticated:
+        return Response(
+            {"error": "Authentication required."},
+            status=401,
+        )
+
+    if request.user.role != "editor":
+        return Response(
+            {"error": "Only editors can approve articles."},
+            status=403,
+        )
+
+    article_id = request.data.get("article_id")
+
+    if not article_id:
+        return Response(
+            {"error": "article_id is required."},
+            status=400,
+        )
+
+    article = get_object_or_404(
+        Article,
+        pk=article_id,
+    )
+
+    article.approved = True
+    article.save()
+
+    return Response(
+        {
+            "message": "Article approved successfully.",
+            "article_id": article.id,
+            "approved": article.approved,
+        },
+        status=200,
     )
 
 

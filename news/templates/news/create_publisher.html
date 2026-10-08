@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Create Publisher</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Create Publisher</button>
+</form>
+
+<a href="{% url 'publisher_list' %}" class="publisher-button">
+    Cancel
+</a>
+
+{% endblock %}

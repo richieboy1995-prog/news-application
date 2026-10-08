@@ -1,3 +1,5 @@
+"""Define tests for the news application."""
+
 from unittest.mock import patch
 
 from django.test import TestCase
@@ -13,6 +15,7 @@ class ArticleAPITest(TestCase):
     """Test the article REST API endpoints."""
 
     def setUp(self):
+        """Set up users, a publisher, and test articles."""
         self.client = APIClient()
 
         self.journalist = User.objects.create_user(
@@ -200,9 +203,7 @@ class ArticleAPITest(TestCase):
     def test_journalist_cannot_update_another_journalists_article(
         self,
     ):
-        """
-        Test that a journalist cannot update another journalist's article.
-        """
+        """Test that a journalist cannot update another journalist."""
         self.client.force_authenticate(
             user=self.second_journalist
         )
@@ -264,9 +265,7 @@ class ArticleAPITest(TestCase):
     def test_journalist_cannot_delete_another_journalists_article(
         self,
     ):
-        """
-        Test that a journalist cannot delete another journalist's article.
-        """
+        """Test that a journalist cannot delete another journalist."""
         self.client.force_authenticate(
             user=self.second_journalist
         )
@@ -294,6 +293,7 @@ class NewsletterTest(TestCase):
     """Test newsletter creation, editing, and deletion."""
 
     def setUp(self):
+        """Set up the users and article used by newsletter tests."""
         self.client = APIClient()
 
         self.journalist = User.objects.create_user(
@@ -402,6 +402,7 @@ class ArticleApprovalTest(TestCase):
     """Test article approval and subscriber email notification."""
 
     def setUp(self):
+        """Set up users and an article waiting for approval."""
         self.client = APIClient()
 
         self.editor = User.objects.create_user(
@@ -438,8 +439,8 @@ class ArticleApprovalTest(TestCase):
         )
 
     def test_editor_can_approve_article_and_send_email(self):
-        """
-        Test that approval publishes an article
+        """Test that approval publishes an article.
+
         and sends notification email.
         """
         self.client.force_login(self.editor)

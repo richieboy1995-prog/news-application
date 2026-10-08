@@ -1,9 +1,14 @@
+"""Configure the accounts application."""
+
 from django.apps import AppConfig
 
 
 class AccountsConfig(AppConfig):
+    """Configure the accounts Django application."""
+
     default_auto_field = "django.db.models.BigAutoField"
-    name = 'accounts'
+    name = "accounts"
 
     def ready(self):
-        import accounts.signals
+        """Load account signals when the application starts."""
+        from . import signals  # noqa: F401

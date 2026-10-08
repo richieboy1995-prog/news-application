@@ -1,3 +1,5 @@
+"""Configure the Django admin for news models."""
+
 from django.contrib import admin
 
 from .models import Publisher

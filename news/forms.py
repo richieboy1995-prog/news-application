@@ -1,3 +1,5 @@
+"""Provide forms for the news application."""
+
 from django import forms
 
 from .models import Article, Newsletter, Publisher
@@ -7,6 +9,8 @@ class ArticleForm(forms.ModelForm):
     """Provide a form for creating and editing news articles."""
 
     class Meta:
+        """Define the fields used by the article form."""
+
         model = Article
         fields = [
             "title",
@@ -15,17 +19,14 @@ class ArticleForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, user=None, **kwargs):
-        """Limit publisher choices to the user's publisher."""
+        """Provide all publishers as article choices."""
         super().__init__(*args, **kwargs)
 
         self.user = user
 
-        if user and user.publisher:
-            self.fields["publisher"].queryset = Publisher.objects.filter(
-                pk=user.publisher.pk
-            )
-        else:
-            self.fields["publisher"].queryset = Publisher.objects.none()
+        self.fields["publisher"].queryset = (
+            Publisher.objects.all().order_by("name")
+        )
 
     def clean(self):
         """Set the article journalist based on the selected publisher."""
@@ -42,10 +43,25 @@ class ArticleForm(forms.ModelForm):
         return cleaned_data
 
 
+class PublisherForm(forms.ModelForm):
+    """Provide a form for creating and editing publishers."""
+
+    class Meta:
+        """Define the fields used by the publisher form."""
+
+        model = Publisher
+        fields = [
+            "name",
+            "description",
+        ]
+
+
 class NewsletterForm(forms.ModelForm):
     """Provide a form for creating and editing newsletters."""
 
     class Meta:
+        """Define the fields used by the newsletter form."""
+
         model = Newsletter
         fields = [
             "title",

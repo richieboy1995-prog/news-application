@@ -1,3 +1,5 @@
+"""Provide views for user registration and authentication."""
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render

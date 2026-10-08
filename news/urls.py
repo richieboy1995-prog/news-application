@@ -1,3 +1,5 @@
+"""Define URL patterns for the news application."""
+
 from django.urls import path
 
 from . import views
@@ -23,6 +25,21 @@ urlpatterns = [
         "publishers/",
         views.publisher_list,
         name="publisher_list",
+    ),
+    path(
+        "publishers/create/",
+        views.create_publisher,
+        name="create_publisher",
+    ),
+    path(
+        "publishers/<int:publisher_id>/edit/",
+        views.edit_publisher,
+        name="edit_publisher",
+    ),
+    path(
+        "publishers/<int:publisher_id>/delete/",
+        views.delete_publisher,
+        name="delete_publisher",
     ),
     path(
         "publishers/<int:publisher_id>/subscribe/",
@@ -103,5 +120,10 @@ urlpatterns = [
         "api/articles/<int:article_id>/",
         views.api_article_detail,
         name="api_article_detail",
+    ),
+    path(
+        "api/approved/",
+        views.api_approve_article,
+        name="api_approve_article",
     ),
 ]
