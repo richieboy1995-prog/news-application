@@ -570,12 +570,12 @@ def api_article_list(request):
 
     serializer = ArticleSerializer(
         data=request.data,
+        context={"request": request},
     )
 
     if serializer.is_valid():
         article = serializer.save(
             author=request.user,
-            journalist=request.user,
             approved=False,
         )
 

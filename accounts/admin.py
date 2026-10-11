@@ -8,7 +8,7 @@ from .models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    """Customises the admin interface for users."""
+    """Customizes the admin interface for users."""
 
     fieldsets = UserAdmin.fieldsets + (
         (
