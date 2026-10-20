@@ -1,17 +1,22 @@
+
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environment
+# Virtual environments
 venv/
 .venv/
+env/
+ENV/
 
 # Django
 db.sqlite3
+media/
 
 # Environment variables
 .env
+.env.*
 
 # IDE files
 .vscode/
@@ -20,3 +25,6 @@ db.sqlite3
 # OS files
 .DS_Store
 Thumbs.db
+
+# Sphinx generated build files
+docs/_build/
