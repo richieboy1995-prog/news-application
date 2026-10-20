@@ -17,7 +17,16 @@ from .models import Article, Newsletter, Publisher
 
 
 def article_list(request):
-    """Display all approved articles."""
+    """Display all approved articles.
+
+    Retrieve approved articles and render the article list page.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The rendered article list page.
+    :rtype: HttpResponse
+    """
+
     articles = Article.objects.filter(approved=True)
 
     return render(
@@ -29,7 +38,17 @@ def article_list(request):
 
 @login_required
 def create_article(request):
-    """Allow a journalist to create an article."""
+    """Allow a journalist to create a news article.
+
+    Process the article form and save the article as unapproved.
+    Redirect users who are not journalists to the article list.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The article creation page or a redirect.
+    :rtype: HttpResponse
+    """
+
     if request.user.role != "journalist":
         return redirect("article_list")
 
@@ -68,7 +87,16 @@ def create_article(request):
 
 @login_required
 def pending_articles(request):
-    """Display articles waiting for editor approval."""
+    """Display articles waiting for editor approval.
+
+    Retrieve unapproved articles, ordered from newest to oldest.
+    Only editors can access the pending articles page.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The pending articles page or a redirect.
+    :rtype: HttpResponse
+    """
     if request.user.role != "editor":
         return redirect("article_list")
 
@@ -86,7 +114,18 @@ def pending_articles(request):
 @require_POST
 @login_required
 def approve_article(request, article_id):
-    """Approve an article and notify subscribed readers."""
+    """Approve an article and notify subscribed readers.
+
+    Allow editors to approve an article and email readers subscribed
+    to its publisher or independent journalist.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param article_id: The ID of the article to approve.
+    :type article_id: int
+    :returns: A redirect to the pending articles page or another page.
+    :rtype: HttpResponse
+    """
     if request.user.role != "editor":
         return redirect("article_list")
 
@@ -152,7 +191,15 @@ def approve_article(request, article_id):
 
 @login_required
 def publisher_list(request):
-    """Display all available publishers."""
+    """Display all available publishers.
+
+    Retrieve publishers ordered alphabetically by name.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The publisher list page.
+    :rtype: HttpResponse
+    """
     publishers = Publisher.objects.all().order_by("name")
 
     return render(
@@ -164,7 +211,16 @@ def publisher_list(request):
 
 @login_required
 def create_publisher(request):
-    """Allow an editor to create a publisher."""
+    """Allow an editor to create a publisher.
+
+    Process the publisher form and save a new publisher when valid.
+    Redirect users who are not editors to the publisher list.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The publisher creation page or a redirect.
+    :rtype: HttpResponse
+    """
     if request.user.role != "editor":
         return redirect("publisher_list")
 
@@ -186,7 +242,17 @@ def create_publisher(request):
 
 @login_required
 def edit_publisher(request, publisher_id):
-    """Allow an editor to edit a publisher."""
+    """Allow an editor to edit a publisher.
+
+    Retrieve the selected publisher and process its editing form.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param publisher_id: The ID of the publisher to edit.
+    :type publisher_id: int
+    :returns: The publisher editing page or a redirect.
+    :rtype: HttpResponse
+    """
     if request.user.role != "editor":
         return redirect("publisher_list")
 
@@ -217,7 +283,17 @@ def edit_publisher(request, publisher_id):
 @login_required
 @require_POST
 def delete_publisher(request, publisher_id):
-    """Allow an editor to delete a publisher."""
+    """Allow an editor to delete a publisher.
+
+    Retrieve the selected publisher and delete it.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param publisher_id: The ID of the publisher to delete.
+    :type publisher_id: int
+    :returns: A redirect to the publisher list.
+    :rtype: HttpResponse
+    """
     if request.user.role != "editor":
         return redirect("publisher_list")
 
@@ -234,7 +310,17 @@ def delete_publisher(request, publisher_id):
 @require_POST
 @login_required
 def subscribe_publisher(request, publisher_id):
-    """Subscribe a reader to a publisher."""
+    """Subscribe a reader to a publisher.
+
+    Add the selected publisher to the reader's subscriptions.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param publisher_id: The ID of the publisher to subscribe to.
+    :type publisher_id: int
+    :returns: A redirect to the publisher list.
+    :rtype: HttpResponse
+    """
     if request.user.role != ("reader"):
         return redirect("publisher_list")
 
@@ -251,7 +337,17 @@ def subscribe_publisher(request, publisher_id):
 @require_POST
 @login_required
 def unsubscribe_publisher(request, publisher_id):
-    """Remove a reader's subscription to a publisher."""
+    """Remove a reader's subscription to a publisher.
+
+    Remove the selected publisher from the reader's subscriptions.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param publisher_id: The ID of the publisher to unsubscribe from.
+    :type publisher_id: int
+    :returns: A redirect to the publisher list.
+    :rtype: HttpResponse
+    """
     if request.user.role != "reader":
         return redirect("publisher_list")
 
@@ -267,7 +363,15 @@ def unsubscribe_publisher(request, publisher_id):
 
 @login_required
 def journalist_list(request):
-    """Display all independent journalists."""
+    """Display all independent journalists.
+
+    Retrieve journalist accounts ordered alphabetically by username.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The journalist list page.
+    :rtype: HttpResponse
+    """
     journalists = User.objects.filter(
         role="journalist"
     ).order_by("username")
@@ -282,7 +386,17 @@ def journalist_list(request):
 @require_POST
 @login_required
 def subscribe_journalist(request, journalist_id):
-    """Subscribe a reader to a journalist."""
+    """Subscribe a reader to a journalist.
+
+    Add the selected journalist to the reader's subscriptions.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param journalist_id: The ID of the journalist to follow.
+    :type journalist_id: int
+    :returns: A redirect to the journalist list.
+    :rtype: HttpResponse
+    """
     if request.user.role != "reader":
         return redirect("journalist_list")
 
@@ -300,7 +414,17 @@ def subscribe_journalist(request, journalist_id):
 @require_POST
 @login_required
 def unsubscribe_journalist(request, journalist_id):
-    """Remove a reader's subscription to a journalist."""
+    """Remove a reader's subscription to a journalist.
+
+    Remove the selected journalist from the reader's subscriptions.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param journalist_id: The ID of the journalist to unfollow.
+    :type journalist_id: int
+    :returns: A redirect to the journalist list.
+    :rtype: HttpResponse
+    """
     if request.user.role != "reader":
         return redirect("journalist_list")
 
@@ -317,7 +441,16 @@ def unsubscribe_journalist(request, journalist_id):
 
 @login_required
 def subscribed_articles(request):
-    """Display approved articles from reader subscriptions."""
+    """Display approved articles from reader subscriptions.
+
+    Retrieve approved articles from subscribed publishers and journalists,
+    ordered from newest to oldest.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The subscribed articles page or a redirect.
+    :rtype: HttpResponse
+    """
     if request.user.role != "reader":
         return redirect("article_list")
 
@@ -344,7 +477,16 @@ def subscribed_articles(request):
 
 @login_required
 def create_newsletter(request):
-    """Allow a journalist to create a newsletter."""
+    """Allow a journalist to create a newsletter.
+
+    Process the newsletter form, save the newsletter and its article
+    relationships, and redirect when creation succeeds.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The newsletter creation page or a redirect.
+    :rtype: HttpResponse
+    """
     if request.user.role != "journalist":
         return redirect("article_list")
 
@@ -370,7 +512,15 @@ def create_newsletter(request):
 
 
 def newsletter_list(request):
-    """Display all newsletters."""
+    """Display all newsletters.
+
+    Retrieve newsletters ordered from newest to oldest.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The newsletter list page.
+    :rtype: HttpResponse
+    """
     newsletters = Newsletter.objects.all().order_by("-created_at")
 
     return render(
@@ -381,7 +531,17 @@ def newsletter_list(request):
 
 
 def newsletter_detail(request, newsletter_id):
-    """Display the details of a newsletter."""
+    """Display the details of a newsletter.
+
+    Retrieve the selected newsletter and render its detail page.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param newsletter_id: The ID of the newsletter to display.
+    :type newsletter_id: int
+    :returns: The newsletter detail page.
+    :rtype: HttpResponse
+    """
     newsletter = get_object_or_404(
         Newsletter,
         pk=newsletter_id,
@@ -396,7 +556,18 @@ def newsletter_detail(request, newsletter_id):
 
 @login_required
 def edit_article(request, article_id):
-    """Allow an authorised user to edit an article."""
+    """Allow an authorized user to edit an article.
+
+    Journalists can edit their own articles, while editors can edit
+    articles regardless of who authored them.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param article_id: The ID of the article to edit.
+    :type article_id: int
+    :returns: The article editing page or a redirect.
+    :rtype: HttpResponse
+    """
     article = get_object_or_404(
         Article,
         pk=article_id,
@@ -439,7 +610,18 @@ def edit_article(request, article_id):
 
 @login_required
 def delete_article(request, article_id):
-    """Allow an authorized user to delete an article."""
+    """Allow an authorised user to delete an article.
+
+    Journalists can delete their own articles, while editors can delete
+    articles regardless of who authored them.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param article_id: The ID of the article to delete.
+    :type article_id: int
+    :returns: The deletion confirmation page or a redirect.
+    :rtype: HttpResponse
+    """
     article = get_object_or_404(
         Article,
         pk=article_id,
@@ -468,7 +650,18 @@ def delete_article(request, article_id):
 
 @login_required
 def edit_newsletter(request, newsletter_id):
-    """Allow an authorised user to edit a newsletter."""
+    """Allow an authorised user to edit a newsletter.
+
+    Journalists can edit their own newsletters, while editors can edit
+    newsletters regardless of who authored them.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param newsletter_id: The ID of the newsletter to edit.
+    :type newsletter_id: int
+    :returns: The newsletter editing page or a redirect.
+    :rtype: HttpResponse
+    """
     newsletter = get_object_or_404(
         Newsletter,
         pk=newsletter_id,
@@ -514,7 +707,18 @@ def edit_newsletter(request, newsletter_id):
 
 @login_required
 def delete_newsletter(request, newsletter_id):
-    """Allow an authorised user to delete a newsletter."""
+    """Allow an authorised user to delete a newsletter.
+
+    Journalists can delete their own newsletters, while editors can
+    delete newsletters regardless of who authored them.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :param newsletter_id: The ID of the newsletter to delete.
+    :type newsletter_id: int
+    :returns: The deletion confirmation page or a redirect.
+    :rtype: HttpResponse
+    """
     newsletter = get_object_or_404(
         Newsletter,
         pk=newsletter_id,
@@ -543,7 +747,16 @@ def delete_newsletter(request, newsletter_id):
 
 @api_view(["GET", "POST"])
 def api_article_list(request):
-    """List approved articles or create an article through the API."""
+    """List approved articles or create an article through the API.
+
+    Return approved articles for GET requests. Authenticated journalists
+    can submit new articles through POST requests.
+
+    :param request: The API request received by the endpoint.
+    :type request: Request
+    :returns: A REST framework response containing data or errors.
+    :rtype: Response
+    """
     if request.method == "GET":
         articles = Article.objects.filter(
             approved=True
@@ -592,7 +805,16 @@ def api_article_list(request):
 
 @api_view(["POST"])
 def api_approve_article(request):
-    """Approve an article through REST API."""
+    """Approve an article through the REST API.
+
+    Verify that the request is authenticated and made by an editor,
+    then mark the selected article as approved.
+
+    :param request: The API request received by the endpoint.
+    :type request: Request
+    :returns: A response containing the approval result or an error.
+    :rtype: Response
+    """
     if not request.user.is_authenticated:
         return Response(
             {"error": "Authentication required."},
@@ -633,7 +855,16 @@ def api_approve_article(request):
 
 @api_view(["GET"])
 def api_subscribed_articles(request):
-    """Return approved articles from a reader's subscriptions."""
+    """Return approved articles from a reader's subscriptions.
+
+    Retrieve approved articles from subscribed publishers and
+    journalists and return them as serialized data.
+
+    :param request: The API request received by the endpoint.
+    :type request: Request
+    :returns: A response containing articles or an error.
+    :rtype: Response
+    """
     if not request.user.is_authenticated:
         return Response(
             {"error": "Authentication required."},
@@ -670,7 +901,18 @@ def api_subscribed_articles(request):
 
 @api_view(["GET", "PUT", "DELETE"])
 def api_article_detail(request, article_id):
-    """Retrieve, update, or delete an individual article through the API."""
+    """Retrieve, update, or delete an article through the REST API.
+
+    GET requests retrieve approved articles. Authenticated and
+    authorized users can update or delete articles.
+
+    :param request: The API request received by the endpoint.
+    :type request: Request
+    :param article_id: The ID of the article to access.
+    :type article_id: int
+    :returns: A response containing article data, a status or an error.
+    :rtype: Response
+    """
     article = get_object_or_404(
         Article,
         pk=article_id,
