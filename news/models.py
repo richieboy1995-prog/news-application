@@ -10,6 +10,7 @@ class Publisher(models.Model):
     A publisher has a name and a description and can be associated
     with multiple news articles.
     """
+
     name = models.CharField(max_length=200)
     description = models.TextField()
 
@@ -62,8 +63,9 @@ class Article(models.Model):
         a journalist or a publisher.
 
         :raises ValidationError: If both relationships are set or
-                                If neither relationship is set.
+            if neither relationship is set.
         """
+
         if self.journalist and self.publisher:
             raise ValidationError(
                 "An article cannot have both a journalist and a publisher."
@@ -106,7 +108,7 @@ class Newsletter(models.Model):
     def __str__(self):
         """Return the newsletter title.
 
-        :returns: The title of the newsletter
+        :returns: The title of the newsletter.
         :rtype: str
         """
         return self.title
