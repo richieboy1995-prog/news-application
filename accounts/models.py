@@ -5,7 +5,13 @@ from django.db import models
 
 
 class User(AbstractUser):
-    """Represent a user and their role within the news application."""
+    """Represent a user and their role within the news application.
+
+    Users can be readers, journalists or editors.
+    Readers can subscribe to Publishers and Journalists.
+    Journalists can be associated with a publisher.
+
+    """
 
     ROLE_CHOICES = [
         ("reader", "Reader"),
