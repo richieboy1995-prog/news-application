@@ -8,7 +8,16 @@ from .forms import RegistrationForm
 
 
 def register(request):
-    """Register a new user and log them into the application."""
+    """Register a new user and log them into the application.
+
+    Process the registration form and redirect to the article list
+    when registration succeeds.
+
+    :param request: The HTTP request received from the browser.
+    :type request: HttpRequest
+    :returns: The registration page or a redirect to the article list.
+    :rtype: HttpResponse
+    """
     if request.method == "POST":
         form = RegistrationForm(request.POST)
 
@@ -28,14 +37,31 @@ def register(request):
 
 
 def logout_view(request):
-    """Log the current user out of the application."""
+    """Log the current user out of the application.
+
+    Redirect to the article list after logging out.
+
+    :param request: The HTTP request received from the browser
+    :type request: HttpRequest
+    :returns: A redirect to the article list.
+    :rtype: HttpResponse
+    """
     logout(request)
 
     return redirect("article_list")
 
 
 def login_view(request):
-    """Authenticate a user and log them into the application."""
+    """Authenticate a user and log them into the application.
+
+    Process the login form and redirect to the article list
+    when authentication succeeds.
+
+    :param request: The HTTP request received from the browser
+    :type request: HttpRequest
+    :returns: The login page or a redirect to the article list
+    :rtype: HttpResponse
+    """
     if request.method == "POST":
         form = AuthenticationForm(
             request,
