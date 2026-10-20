@@ -5,18 +5,31 @@ from django.core.exceptions import ValidationError
 
 
 class Publisher(models.Model):
-    """Represent a news publisher."""
+    """Represents a news publisher.
 
+    A publisher has a name and a description and can be associated
+    with multiple news articles.
+    """
     name = models.CharField(max_length=200)
     description = models.TextField()
 
     def __str__(self):
-        """Return the publisher name."""
+        """Return the publisher name.
+
+        :returns: The name of the publisher.
+        :rtype: str
+
+        """
         return self.name
 
 
 class Article(models.Model):
-    """Represent a news article and its publication status."""
+    """Represent a news article and its publication status.
+
+    An article has an author, content, a creation date and an approval
+    status. It must be associated with either a journalist or a publisher,
+    but not both.
+    """
 
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -43,7 +56,14 @@ class Article(models.Model):
     approved = models.BooleanField(default=False)
 
     def clean(self):
-        """Validate the article's journalist and publisher."""
+        """Validate the article's journalist and publisher.
+
+        Ensure that an article is associated with exactly one of
+        a journalist or a publisher.
+
+        :raises ValidationError: If both relationships are set or
+                                If neither relationship is set.
+        """
         if self.journalist and self.publisher:
             raise ValidationError(
                 "An article cannot have both a journalist and a publisher."
@@ -55,12 +75,20 @@ class Article(models.Model):
             )
 
     def __str__(self):
-        """Return the article title."""
+        """Return the article title.
+
+        :returns: The title of the article.
+        :rtype: str
+        """
         return self.title
 
 
 class Newsletter(models.Model):
-    """Represent a curated collection of news articles."""
+    """Represent a curated collection of news articles.
+
+    A newsletter has a title, description, author and
+    a collection of articles.
+    """
 
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -76,5 +104,9 @@ class Newsletter(models.Model):
     )
 
     def __str__(self):
-        """Return the newsletter title."""
+        """Return the newsletter title.
+
+        :returns: The title of the newsletter
+        :rtype: str
+        """
         return self.title
