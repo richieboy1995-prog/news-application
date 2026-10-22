@@ -503,6 +503,98 @@ Example request body:
     "article_id": 1
 }
 ```
+## Running with Docker
+
+Docker allows you to run The Woodland Chronicle and
+its MariaDB database in containers without installing Python or 
+MariaDB directly on your computer.
+
+### Prerequisites
+
+Install Docker Desktop and make sure the Docker engine is running.
+
+### 1. Clone the Repository
+
+Open PowerShell and run:
+
+```powershell
+git clone https://github.com/richieboy1995-prog/news-application.git
+cd news-application
+```
+
+### 2. Configure Environment Variables
+
+Create a file named `.env` in the same directory as `compose.yaml`.
+
+Add the following variables, replacing the example values with your own strong and unique secrets:
+
+```dotenv
+MARIADB_PASSWORD='your-database-password'
+MARIADB_ROOT_PASSWORD='your-root-password'
+DJANGO_SECRET_KEY='your-long-random-django-secret'
+```
+
+Do not commit `.env` to GitHub or share its contents. The repository's `.gitignore` excludes this file.
+
+### 3. Build and Start the Application
+
+In PowerShell, run:
+
+```powershell
+docker compose up --build
+```
+
+Docker builds the Django image, starts MariaDB, waits for the database health check, applies Django migrations, and starts the development server.
+
+### 4. Open the Website
+
+Open the following address in your browser:
+
+http://localhost:8000/
+
+### 5. Create an Administrator Account
+
+With the containers running, open a second PowerShell terminal in the project directory and run:
+
+```powershell
+docker compose exec web python manage.py createsuperuser
+```
+
+Follow the prompts to create an administrator account. You can then access the Django admin at:
+
+http://localhost:8000/admin/
+
+### 6. Stop the Application
+
+In the terminal running Docker Compose, press `Ctrl + C`.
+
+Alternatively, run this from a second terminal in the project directory:
+
+```powershell
+docker compose down
+```
+
+The MariaDB data is stored in a Docker volume, 
+so stopping the containers does not normally delete the database.
+
+To stop the containers and delete the stored database volume as well, run:
+
+```powershell
+docker compose down -v
+```
+
+**Warning:** the `-v` option deletes the database volume and its stored data.
+
+### Database and Secrets
+
+The Docker Compose configuration runs MariaDB as a separate service. 
+Django connects to it using the service name `db`.
+
+Database passwords and the Django secret key are supplied through environment variables. 
+Never put real secrets directly into the Dockerfile, commit them to Git or publish them in this README.
+
+The included configuration uses Django's development server 
+and is intended for coursework and local development, not production deployment.
 
 ## Development Notes
 
