@@ -25,6 +25,3 @@ media/
 # OS files
 .DS_Store
 Thumbs.db
-
-# Sphinx generated build files
-docs/_build/
