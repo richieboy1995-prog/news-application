@@ -17,6 +17,7 @@ media/
 # Environment variables
 .env
 .env.*
+!.env.example
 
 # IDE files
 .vscode/
@@ -25,10 +26,7 @@ media/
 # OS files
 .DS_Store
 Thumbs.db
-<<<<<<< HEAD
 
 # Sphinx internal build cache
 docs/_build/html/.buildinfo
 docs/_build/html/.doctrees/
-=======
->>>>>>> container

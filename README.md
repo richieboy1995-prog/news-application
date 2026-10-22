@@ -544,7 +544,8 @@ In PowerShell, run:
 docker compose up --build
 ```
 
-Docker builds the Django image, starts MariaDB, waits for the database health check, applies Django migrations, and starts the development server.
+Docker builds the Django image, starts MariaDB, waits for the database health check, 
+applies Django migrations and starts the development server.
 
 ### 4. Open the Website
 
