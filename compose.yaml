@@ -17,7 +17,8 @@ services:
       start_period: 30s
 
   web:
-    image: brontidepsy/woodland-chronicle:1.0
+    image: brontidepsy/woodland-chronicle:1.1
+    build: .
     ports:
       - "8000:8000"
     environment:
