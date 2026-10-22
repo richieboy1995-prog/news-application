@@ -21,7 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-key-for-local-dev-only'
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-local-development-only",
+)
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+
+ALLOWED_HOSTS = os.environ.get(
+    "DJANGO_ALLOWED_HOSTS",
+    "localhost,127.0.0.1",
+).split(",")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,16 +91,32 @@ WSGI_APPLICATION = 'news_application.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "news_application",
-        "USER": "root",
-        "PASSWORD": os.environ.get("MARIADB_PASSWORD"),
-        "HOST": "localhost",
-        "PORT": "3306",
+        "NAME": os.environ.get(
+            "DB_NAME",
+            "news_application",
+        ),
+        "USER": os.environ.get(
+            "DB_USER",
+            "root",
+        ),
+        "PASSWORD": os.environ.get(
+            "MARIADB_PASSWORD",
+        ),
+        "HOST": os.environ.get(
+            "DB_HOST",
+            "localhost",
+        ),
+        "PORT": os.environ.get(
+            "DB_PORT",
+            "3306",
+        ),
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
