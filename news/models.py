@@ -65,7 +65,6 @@ class Article(models.Model):
         :raises ValidationError: If both relationships are set or
             if neither relationship is set.
         """
-
         if self.journalist and self.publisher:
             raise ValidationError(
                 "An article cannot have both a journalist and a publisher."

@@ -26,7 +26,6 @@ def article_list(request):
     :returns: The rendered article list page.
     :rtype: HttpResponse
     """
-
     articles = Article.objects.filter(approved=True)
 
     return render(
@@ -48,7 +47,6 @@ def create_article(request):
     :returns: The article creation page or a redirect.
     :rtype: HttpResponse
     """
-
     if request.user.role != "journalist":
         return redirect("article_list")
 

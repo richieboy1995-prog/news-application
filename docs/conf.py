@@ -1,3 +1,5 @@
+"""Sphinx configuration for The Woodland Chronicle documentation."""
+
 import os
 import sys
 import django
